@@ -1,2 +1,2 @@
 # ecommerce-clone
-E-commerce website clone developed using MERN stack
+E-commerce website clone created using MERN stack
