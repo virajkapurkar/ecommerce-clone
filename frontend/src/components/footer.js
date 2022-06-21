@@ -1,21 +1,30 @@
 import * as React from "react";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-
-function footer(props) {
+import Typography from "@mui/material/Typography";
+import { createTheme, ThemeProvider } from "@mui/material";
+const theme = createTheme();
+theme.typography.body2 = {
+  fontSize: 11.5,
+};
+function Footer(props) {
   return (
     <>
-      <footer>
-        <Container>
-          <Grid container>
-            <Grid item xs={12} align="center">
-              All Rights Reserved &copy; ecommerce-clone
+      <ThemeProvider theme={theme}>
+        <footer>
+          <Container style={{ marginBottom: "5vh", marginTop: "10vh" }}>
+            <Grid container>
+              <Grid item xs={12} align="center">
+                <Typography variant="body2" component="div" color="#4d4d4d">
+                  All Rights Reserved &copy; ecommerce-clone
+                </Typography>
+              </Grid>
             </Grid>
-          </Grid>
-        </Container>
-      </footer>
+          </Container>
+        </footer>
+      </ThemeProvider>
     </>
   );
 }
 
-export default footer;
+export default Footer;

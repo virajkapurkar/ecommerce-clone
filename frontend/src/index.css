@@ -6,4 +6,6 @@
 }
 main {
   min-height: 85vh;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
 }
