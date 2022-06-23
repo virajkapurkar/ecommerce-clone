@@ -5,25 +5,26 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Link } from "@mui/material";
 import { useState } from "react";
+import Rating from "./rating";
 
 const cardStyle = {
   display: "block",
   transitionDuration: "0.3s",
-  height: "52vh",
+  height: "270px",
+  width: "250px",
   margin: 1,
 };
 
 const imageStyle = {
-  width: "15vw",
-  height: "15vw",
+  width: "100px",
+  height: "100px",
 };
 
-const spanStyle = {
-  backgroundColor: "#00b300",
-  color: "white",
-  padding: 3,
-  borderRadius: "5px",
+const spanStyle1 = {
+  fontSize: 15,
+  fontFamily: "Segoe",
 };
+
 function Product(item) {
   const [isHovering, setIsHovering] = useState(false);
 
@@ -47,13 +48,20 @@ function Product(item) {
         </Link>
 
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div" align="center">
+          <Typography
+            gutterBottom
+            variant="h6"
+            component="div"
+            align="left"
+            sx={{ m: 0 }}
+          >
             <Link
               underline="none"
               color="black"
               href="#"
               style={{
                 color: isHovering ? "#2874f0" : "",
+                m: 0,
               }}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
@@ -64,18 +72,22 @@ function Product(item) {
 
           <Typography
             gutterBottom
-            variant="body2"
+            variant="body1"
             component="div"
-            align="center"
-            sx={{ my: 1 }}
+            align="left"
+            color="#8c8c8c"
+            sx={{ m: 0 }}
           >
-            Rated <span style={spanStyle}>{item.product.rating}</span>
-            ⭐️ by {item.product.numReviews} customers
+            {item.product.brand}
           </Typography>
 
-          <Typography gutterBottom variant="h6" component="div" align="center">
-            ₹ {item.product.price}
+          <Typography gutterBottom variant="h5" component="div" align="left">
+            <span style={spanStyle1}>₹</span> {item.product.price}
+            {""}
+            <span style={spanStyle1}> 00</span>
           </Typography>
+
+          <Rating value={item.product.rating} num={item.product.numReviews} />
         </CardContent>
       </Card>
     </>

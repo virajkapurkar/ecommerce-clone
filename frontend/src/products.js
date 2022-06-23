@@ -55,7 +55,7 @@ const products = [
   },
   {
     _id: "5",
-    name: "Uefa Champions League ball",
+    name: "Uefa Champions League Matchball",
     image:
       "https://www.pngkey.com/png/detail/308-3089904_adidas-finale-kiev-top-training-soccer-ball-uefa.png",
     description: "Uefa Champions League final-2015 Kiev Match ball",
