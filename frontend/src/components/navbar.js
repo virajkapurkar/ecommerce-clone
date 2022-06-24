@@ -8,10 +8,16 @@ import Container from "@mui/material/Container";
 import ShoppingCartSharpIcon from "@mui/icons-material/ShoppingCartSharp";
 import PersonIcon from "@mui/icons-material/Person";
 import { createTheme, ThemeProvider } from "@mui/material";
+import { NavLink } from "react-router-dom";
 
 const theme = createTheme();
 theme.typography.body2 = {
   fontSize: 11.5,
+};
+
+const linkStyle = {
+  textDecoration: "none",
+  color: "white",
 };
 
 function Navbar(props) {
@@ -22,20 +28,28 @@ function Navbar(props) {
           <Container>
             <Toolbar>
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                E-commerce App
+                <NavLink to="/" style={linkStyle}>
+                  {" "}
+                  E-commerce App
+                </NavLink>
               </Typography>
+
               <Button color="inherit">
                 {" "}
                 <ShoppingCartSharpIcon /> &nbsp;{" "}
                 <Typography variant="body2" display="block">
-                  cart
+                  <NavLink to="/cart" style={linkStyle}>
+                    Cart
+                  </NavLink>
                 </Typography>
               </Button>
               <Button color="inherit">
                 {" "}
                 <PersonIcon /> &nbsp;{" "}
                 <Typography variant="body2" display="block">
-                  Login
+                  <NavLink to="/signin" style={linkStyle}>
+                    Login
+                  </NavLink>
                 </Typography>
               </Button>
             </Toolbar>

@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Link } from "@mui/material";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import Rating from "./rating";
 
@@ -38,7 +38,7 @@ function Product(item) {
   return (
     <>
       <Card style={cardStyle}>
-        <Link href="#">
+        <Link to={`/${item.product._id}`}>
           <CardMedia
             sx={{ m: "auto" }}
             style={imageStyle}
@@ -56,12 +56,11 @@ function Product(item) {
             sx={{ m: 0 }}
           >
             <Link
-              underline="none"
-              color="black"
-              href="#"
+              to={`/${item.product._id}`}
               style={{
-                color: isHovering ? "#2874f0" : "",
+                color: isHovering ? "#2874f0" : "black",
                 m: 0,
+                textDecoration: "none",
               }}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
