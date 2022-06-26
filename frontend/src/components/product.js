@@ -38,7 +38,7 @@ function Product(item) {
   return (
     <>
       <Card style={cardStyle}>
-        <Link to={`/${item.product._id}`}>
+        <Link to={`/product/${item.product._id}`}>
           <CardMedia
             sx={{ m: "auto" }}
             style={imageStyle}
@@ -56,7 +56,7 @@ function Product(item) {
             sx={{ m: 0 }}
           >
             <Link
-              to={`/${item.product._id}`}
+              to={`/product/${item.product._id}`}
               style={{
                 color: isHovering ? "#2874f0" : "black",
                 m: 0,

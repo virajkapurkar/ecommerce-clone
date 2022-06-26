@@ -3,8 +3,9 @@ import "./App.css";
 import Footer from "./components/footer";
 import Navbar from "./components/navbar";
 import Home from "./screens/home";
-import Typography from "@mui/material/Typography";
+//mport Typography from "@mui/material/Typography";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import ProductDetail from "./screens/productDetail";
 
 function App() {
   return (
@@ -16,11 +17,9 @@ function App() {
 
         <main>
           <Container>
-            <Typography variant="h4" component="h1" align="center">
-              Ecommerce App 🛒
-            </Typography>
             <Routes>
               <Route exact path="/" element={<Home />} />
+              <Route path="/product/:id" element={<ProductDetail />}></Route>
             </Routes>
           </Container>
         </main>
