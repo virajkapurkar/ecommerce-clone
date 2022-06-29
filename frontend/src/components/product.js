@@ -5,7 +5,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import Rating from "./rating";
+import CustomRating from "./rating";
 
 const cardStyle = {
   display: "block",
@@ -86,7 +86,10 @@ function Product(item) {
             <span style={spanStyle1}> 00</span>
           </Typography>
 
-          <Rating value={item.product.rating} num={item.product.numReviews} />
+          <CustomRating
+            value={item.product.rating}
+            num={item.product.numReviews}
+          />
         </CardContent>
       </Card>
     </>

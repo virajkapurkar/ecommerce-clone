@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Grid } from "@mui/material";
-import products from "../products";
 import Product from "../components/product";
 
 function Home(props) {
+  const [products, modifyProducts] = useState([]);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data } = await axios.get("http://localhost:8080/products");
+      modifyProducts(data);
+    };
+    fetchProducts();
+  }, []);
+
   return (
     <>
       <Grid container spacing={2} marginTop={2}>

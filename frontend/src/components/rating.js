@@ -3,7 +3,7 @@ import Rating from "@mui/material/Rating";
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 
-function rating(props) {
+function CustomRating(props) {
   return (
     <>
       <Box
@@ -16,7 +16,7 @@ function rating(props) {
         <Rating
           size="small"
           name="read-only"
-          value={props.value}
+          value={props.value ? props.value : 0}
           precision={0.1}
           readOnly
           sx={{ m: 0 }}
@@ -27,11 +27,11 @@ function rating(props) {
           align="left"
           sx={{ marginLeft: 0.5 }}
         >
-          ({props.num})
+          ({props.num ? props.num : 0})
         </Typography>
       </Box>
     </>
   );
 }
 
-export default rating;
+export default CustomRating;

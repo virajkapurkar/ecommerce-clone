@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import products from "../products";
+import axios from "axios";
 import { Grid, Container, Typography } from "@mui/material";
-import Rating from "../components/rating";
+import CustomRating from "../components/rating";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import { createTheme, ThemeProvider } from "@mui/material";
@@ -23,8 +23,17 @@ const theme = createTheme({
 });
 
 function ProductDetail(props) {
+  const [product, modifyProduct] = useState({});
   const { id } = useParams();
-  const product = products.find((p) => p._id === id);
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const { data } = await axios.get(`http://localhost:8080/products/${id}`);
+      modifyProduct(data);
+    };
+    fetchProduct();
+  }, [id]);
+
+  // const product = products.find((p) => p._id === id);
   //const notFound = "Product was not found";
   return (
     <>
@@ -56,7 +65,7 @@ function ProductDetail(props) {
                 {product.name}
               </Typography>
               <Divider />
-              <Rating value={product.rating} num={product.numReviews} />
+              <CustomRating value={product.rating} num={product.numReviews} />
 
               <Typography component="div" variant="h3" align="left" marginY={3}>
                 ₹ {product.price}
