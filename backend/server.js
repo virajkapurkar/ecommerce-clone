@@ -1,7 +1,9 @@
 import express from "express";
 import products from "./data/products.js";
+import dotenv from "dotenv";
 
 const app = express();
+dotenv.config();
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -25,6 +27,9 @@ app.get("/products/:id", (req, res) => {
   res.json(product);
 });
 
-app.listen(8080, () => {
-  console.log("Listening at 8080");
+const PORT = 8080;
+app.listen(process.env.PORT || PORT, () => {
+  console.log(
+    `Server running in ${process.env.NODE_ENV} mode at port ${process.env.PORT}`
+  );
 });
