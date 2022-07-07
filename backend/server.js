@@ -1,9 +1,14 @@
 import express from "express";
 import products from "./data/products.js";
 import dotenv from "dotenv";
+import { connectDB } from "./config/db.js";
 
-const app = express();
 dotenv.config();
+//connect to the database
+const mongoUri = process.env.MONGO_URI;
+connectDB(mongoUri);
+const app = express();
+
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(

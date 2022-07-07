@@ -12,6 +12,7 @@ package-lock.json
 /build
 
 # misc
+devNotes.txt
 .env
 .DS_Store
 .env.local
