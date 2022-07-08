@@ -2,6 +2,7 @@ import express from "express";
 import products from "./data/products.js";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
+import colors from "colors";
 
 dotenv.config();
 //connect to the database
@@ -36,5 +37,6 @@ const PORT = 8080;
 app.listen(process.env.PORT || PORT, () => {
   console.log(
     `Server running in ${process.env.NODE_ENV} mode at port ${process.env.PORT}`
+      .white.bgGreen.bold
   );
 });
