@@ -27,7 +27,9 @@ function ProductDetail(props) {
   const { id } = useParams();
   useEffect(() => {
     const fetchProduct = async () => {
-      const { data } = await axios.get(`http://localhost:8080/products/${id}`);
+      const { data } = await axios.get(
+        `http://localhost:8080/api/products/${id}`
+      );
       modifyProduct(data);
     };
     fetchProduct();

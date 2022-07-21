@@ -3,6 +3,7 @@ import products from "./data/products.js";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 import colors from "colors";
+import productRouter from "./routes/productsRoute.js";
 
 dotenv.config();
 //connect to the database
@@ -23,15 +24,7 @@ app.get("/", (req, res) => {
   res.send("HELLO");
 });
 
-app.get("/products", (req, res) => {
-  res.json(products);
-});
-
-app.get("/products/:id", (req, res) => {
-  const { id } = req.params;
-  const product = products.find((p) => p._id === id);
-  res.json(product);
-});
+app.use("/api", productRouter);
 
 const PORT = 8080;
 app.listen(process.env.PORT || PORT, () => {
