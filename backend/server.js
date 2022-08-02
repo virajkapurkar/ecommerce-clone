@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 import colors from "colors";
 import productRouter from "./routes/productsRoute.js";
+import errorHandler from "./middleware/errorHandler.js";
 
 dotenv.config();
 //connect to the database
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api", productRouter);
+app.use(errorHandler);
 
 const PORT = 8080;
 app.listen(process.env.PORT || PORT, () => {
