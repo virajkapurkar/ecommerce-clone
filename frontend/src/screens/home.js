@@ -1,27 +1,33 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Grid } from "@mui/material";
 import Product from "../components/product";
+import { fetchProducts } from "../actions/productActions.js";
 
 function Home(props) {
-  const [products, modifyProducts] = useState([]);
+  const dispatch = useDispatch();
+  const productList = useSelector((state) => state.productList);
+  const { loading, error, products } = productList;
+
   useEffect(() => {
-    const fetchProducts = async () => {
-      const { data } = await axios.get("http://localhost:8080/api/products");
-      modifyProducts(data);
-    };
-    fetchProducts();
-  }, []);
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   return (
     <>
-      <Grid container spacing={2} marginTop={2}>
-        {products.map((product) => (
-          <Grid key={product._id} item md={3} xs={6}>
-            <Product product={product} />
-          </Grid>
-        ))}
-      </Grid>
+      {loading ? (
+        <h2>LOADING......</h2>
+      ) : error ? (
+        <h2>{error}</h2>
+      ) : (
+        <Grid container spacing={2} marginTop={2}>
+          {products.map((product) => (
+            <Grid key={product._id} item md={3} xs={6}>
+              <Product product={product} />
+            </Grid>
+          ))}
+        </Grid>
+      )}
     </>
   );
 }
