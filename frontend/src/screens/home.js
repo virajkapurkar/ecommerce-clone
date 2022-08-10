@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Grid } from "@mui/material";
 import Product from "../components/product";
 import { fetchProducts } from "../actions/productActions.js";
+import Spinner from "../components/shared/spinner.js";
+import Message from "../components/shared/alert.js";
 
 function Home(props) {
   const dispatch = useDispatch();
@@ -16,9 +18,9 @@ function Home(props) {
   return (
     <>
       {loading ? (
-        <h2>LOADING......</h2>
+        <Spinner />
       ) : error ? (
-        <h2>{error}</h2>
+        <Message severity={"error"}>{error}</Message>
       ) : (
         <Grid container spacing={2} marginTop={2}>
           {products.map((product) => (
