@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { Grid, Container, Typography } from "@mui/material";
 import CustomRating from "../components/rating";
 import Divider from "@mui/material/Divider";
@@ -10,6 +10,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProductDetails } from "../actions/productActions.js";
 import Spinner from "../components/shared/spinner.js";
 import Message from "../components/shared/alert.js";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import NativeSelect from "@mui/material/Select";
 
 const { palette } = createTheme();
 const { augmentColor } = palette;
@@ -26,14 +30,20 @@ const theme = createTheme({
 });
 
 function ProductDetail(props) {
+  const [qty, setQty] = useState(1);
   const dispatch = useDispatch();
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
 
   const { id } = useParams();
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(fetchProductDetails(id));
   }, [dispatch, id]);
+
+  const cartHandler = () => {
+    navigate(`/cart/${id}?qty=${qty}`);
+  };
 
   // const product = products.find((p) => p._id === id);
   //const notFound = "Product was not found";
@@ -84,18 +94,6 @@ function ProductDetail(props) {
                 </Typography>
                 <Typography
                   component="div"
-                  variant="body2"
-                  align="left"
-                  marginTop={3}
-                  color="green"
-                >
-                  {product.countInStcok} items left!
-                </Typography>
-                <Button variant="contained" size="large" color="yellow">
-                  Add to cart
-                </Button>
-                <Typography
-                  component="div"
                   variant="h6"
                   align="left"
                   color="gray"
@@ -103,6 +101,67 @@ function ProductDetail(props) {
                 >
                   {product.description}
                 </Typography>
+                {product.countInStcok > 0 ? (
+                  <Typography
+                    component="div"
+                    variant="body2"
+                    align="left"
+                    marginTop={3}
+                    color="green"
+                  >
+                    In Stock!
+                  </Typography>
+                ) : (
+                  <Typography
+                    component="div"
+                    variant="body2"
+                    align="left"
+                    marginTop={3}
+                    color="red"
+                  >
+                    Out of Stock!
+                  </Typography>
+                )}
+
+                {product.countInStcok > 0 && (
+                  <>
+                    <InputLabel sx={{ marginTop: 3 }} id="qty-label">
+                      Qty:
+                    </InputLabel>
+                    <FormControl size="small" sx={{ width: 60 }} align="left">
+                      <NativeSelect
+                        labelId="qty-label"
+                        id="qty-val"
+                        value={qty}
+                        sx={{ height: 30 }}
+                        onChange={(e) => setQty(e.target.value)}
+                      >
+                        {[...Array(product.countInStcok).keys()]
+                          .filter((x) => x < 10)
+                          .map((x) => (
+                            <MenuItem key={x + 1} value={x + 1}>
+                              {x + 1}
+                            </MenuItem>
+                          ))}
+                      </NativeSelect>
+                    </FormControl>
+                  </>
+                )}
+
+                <Button
+                  sx={{
+                    minWidth: 220,
+                    display: "block",
+                    marginY: 5,
+                    borderRadius: 4,
+                  }}
+                  variant="contained"
+                  size="small"
+                  color="yellow"
+                  onClick={cartHandler}
+                >
+                  Add to cart
+                </Button>
               </Grid>
             </Grid>
           </Container>
