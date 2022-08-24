@@ -101,7 +101,7 @@ function ProductDetail(props) {
                 >
                   {product.description}
                 </Typography>
-                {product.countInStcok > 0 ? (
+                {product.countInStock > 0 ? (
                   <Typography
                     component="div"
                     variant="body2"
@@ -123,7 +123,7 @@ function ProductDetail(props) {
                   </Typography>
                 )}
 
-                {product.countInStcok > 0 && (
+                {product.countInStock > 0 && (
                   <>
                     <InputLabel sx={{ marginTop: 3 }} id="qty-label">
                       Qty:
@@ -136,7 +136,7 @@ function ProductDetail(props) {
                         sx={{ height: 30 }}
                         onChange={(e) => setQty(e.target.value)}
                       >
-                        {[...Array(product.countInStcok).keys()]
+                        {[...Array(product.countInStock).keys()]
                           .filter((x) => x < 10)
                           .map((x) => (
                             <MenuItem key={x + 1} value={x + 1}>
