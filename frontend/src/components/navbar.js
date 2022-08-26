@@ -38,7 +38,7 @@ function Navbar(props) {
                 {" "}
                 <ShoppingCartSharpIcon /> &nbsp;{" "}
                 <Typography variant="body2" display="block">
-                  <NavLink to="/cart" style={linkStyle}>
+                  <NavLink to="/cart/" style={linkStyle}>
                     Cart
                   </NavLink>
                 </Typography>
