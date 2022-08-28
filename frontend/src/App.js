@@ -16,7 +16,7 @@ function App() {
           <Navbar />
         </header>
 
-        <main>
+        <main id="main-container">
           <Container>
             <Routes>
               <Route exact path="/" element={<Home />} />

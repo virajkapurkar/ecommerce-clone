@@ -2,10 +2,14 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Roboto";
+  font-family: "Open Sans", sans-serif;
 }
 main {
   min-height: 85vh;
-  margin-top: 5vh;
-  margin-bottom: 5vh;
+  padding-top: 5vh;
+  padding-bottom: 5vh;
+  background-color: #eaeded;
+}
+#footer-primary {
+  background-color: #131921;
 }

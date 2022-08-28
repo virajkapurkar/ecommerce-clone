@@ -55,7 +55,7 @@ function ProductDetail(props) {
         <Message severity={"error"}>{error}</Message>
       ) : (
         <ThemeProvider theme={theme}>
-          <Container>
+          <Container sx={{ backgroundColor: "white" }}>
             <Link
               to="/"
               style={{
@@ -90,7 +90,7 @@ function ProductDetail(props) {
                   align="left"
                   marginY={3}
                 >
-                  ₹ {product.price}
+                  ₹ {Number(product.price).toFixed(2)}
                 </Typography>
                 <Typography
                   component="div"

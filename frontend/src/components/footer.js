@@ -11,11 +11,16 @@ function Footer(props) {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <footer>
-          <Container style={{ marginBottom: "5vh", marginTop: "10vh" }}>
+        <footer id="footer-primary">
+          <Container
+            style={{
+              paddingBottom: "5vh",
+              paddingTop: "10vh",
+            }}
+          >
             <Grid container>
               <Grid item xs={12} align="center">
-                <Typography variant="body2" component="div" color="#4d4d4d">
+                <Typography variant="body2" component="div" color="white">
                   All Rights Reserved &copy; ecommerce-clone
                 </Typography>
               </Grid>

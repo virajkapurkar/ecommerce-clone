@@ -24,7 +24,7 @@ function Navbar(props) {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
+        <AppBar position="static" sx={{ backgroundColor: "#131921" }}>
           <Container>
             <Toolbar>
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -33,25 +33,25 @@ function Navbar(props) {
                   E-commerce App
                 </NavLink>
               </Typography>
-
-              <Button color="inherit">
-                {" "}
-                <ShoppingCartSharpIcon /> &nbsp;{" "}
-                <Typography variant="body2" display="block">
-                  <NavLink to="/cart/" style={linkStyle}>
+              <NavLink to="/cart/" style={linkStyle}>
+                <Button color="inherit">
+                  {" "}
+                  <ShoppingCartSharpIcon /> &nbsp;{" "}
+                  <Typography variant="body2" display="block">
                     Cart
-                  </NavLink>
-                </Typography>
-              </Button>
-              <Button color="inherit">
-                {" "}
-                <PersonIcon /> &nbsp;{" "}
-                <Typography variant="body2" display="block">
-                  <NavLink to="/signin" style={linkStyle}>
+                  </Typography>
+                </Button>
+              </NavLink>
+
+              <NavLink to="/signin" style={linkStyle}>
+                <Button color="inherit">
+                  {" "}
+                  <PersonIcon /> &nbsp;{" "}
+                  <Typography variant="body2" display="block">
                     Login
-                  </NavLink>
-                </Typography>
-              </Button>
+                  </Typography>
+                </Button>
+              </NavLink>
             </Toolbar>
           </Container>
         </AppBar>
