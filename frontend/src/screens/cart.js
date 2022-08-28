@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../actions/cartActions.js";
+import { addToCart, removeFromCart } from "../actions/cartActions.js";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { Grid, Typography } from "@mui/material";
 import Message from "../components/shared/alert.js";
@@ -38,7 +38,7 @@ function Cart(props) {
   console.log(cartItems);
 
   const removeHandler = (id) => {
-    console.log(id, "remove");
+    dispatch(removeFromCart(id));
   };
 
   const checkOut = () => {
