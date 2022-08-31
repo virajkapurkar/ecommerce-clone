@@ -264,8 +264,9 @@ function Cart(props) {
                       display: "block",
                       marginY: 1.5,
                       borderRadius: 2,
-                      backgroundColor: "#FFD814",
+                      backgroundColor: "#f0c14b",
                       marginX: "auto",
+                      "&:hover": { backgroundColor: "#e8b22a" },
                     }}
                     variant="contained"
                     size="small"

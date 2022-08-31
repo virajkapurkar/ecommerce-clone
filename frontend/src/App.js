@@ -7,6 +7,7 @@ import Home from "./screens/home";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProductDetail from "./screens/productDetail";
 import Cart from "./screens/cart.js";
+import Login from "./screens/login.js";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Container>
             <Routes>
               <Route exact path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
               <Route path="/product/:id" element={<ProductDetail />}></Route>
               <Route path="/cart/" element={<Cart />}></Route>
               <Route path="/cart/:id" element={<Cart />}></Route>

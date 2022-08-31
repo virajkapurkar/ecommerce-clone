@@ -43,7 +43,7 @@ function Navbar(props) {
                 </Button>
               </NavLink>
 
-              <NavLink to="/signin" style={linkStyle}>
+              <NavLink to="/login" style={linkStyle}>
                 <Button color="inherit">
                   {" "}
                   <PersonIcon /> &nbsp;{" "}
