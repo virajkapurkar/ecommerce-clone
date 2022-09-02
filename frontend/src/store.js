@@ -6,7 +6,10 @@ import {
   productDetailsReducer,
 } from "./reducers/productReducer.js";
 import { cartReducer } from "./reducers/cartReducer.js";
-import { userLoginReducer } from "./reducers/userReducer.js";
+import {
+  userLoginReducer,
+  userRegisterReducer,
+} from "./reducers/userReducer.js";
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
@@ -21,6 +24,7 @@ const reducer = combineReducers({
   productDetails: productDetailsReducer,
   cart: cartReducer,
   userLogin: userLoginReducer,
+  userRegister: userRegisterReducer,
 });
 //Global initial state object
 const initialState = {

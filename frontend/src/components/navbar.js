@@ -16,6 +16,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Logout from "@mui/icons-material/Logout";
 import Link from "@mui/material/Link";
 import { logout } from "../actions/userActions.js";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 const theme = createTheme();
 theme.typography.body2 = {
@@ -71,6 +72,7 @@ function Navbar(props) {
                     <Typography variant="body2" display="block">
                       {userInfo.name}
                     </Typography>
+                    <ArrowDropDownIcon />
                   </Button>
                   <Menu
                     anchorEl={anchorEl}

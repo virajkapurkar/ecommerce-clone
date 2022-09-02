@@ -6,28 +6,40 @@ import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../actions/userActions.js";
+import { register } from "../actions/userActions.js";
 import Spinner from "../components/shared/spinner.js";
 import Message from "../components/shared/alert.js";
 import { Link } from "@mui/material";
 
-function Login(props) {
+function Register(props) {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState("");
+
   const navigate = useNavigate();
   const location = useLocation();
   const redirect = location.search ? location.search.split("=") : "/";
 
+  const handleName = (e) => {
+    setName(e.target.value);
+  };
   const handleEmail = (e) => {
     setEmail(e.target.value);
   };
   const handlePassword = (e) => {
     setPassword(e.target.value);
   };
+  const handleConfirmPassword = (e) => {
+    setConfirmPassword(e.target.value);
+  };
 
   const dispatch = useDispatch();
-  const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
+  const { loading, error, userInfo } = useSelector(
+    (state) => state.userRegister
+  );
+
   useEffect(() => {
     if (userInfo) navigate(redirect);
   }, [userInfo, navigate, redirect]);
@@ -35,7 +47,11 @@ function Login(props) {
   const submitHandler = (e) => {
     e.preventDefault();
     //dispatch code
-    dispatch(login(email, password));
+    if (password !== confirmPassword) {
+      setMessage("Passwords do not match");
+    } else {
+      dispatch(register(name, email, password));
+    }
   };
   return (
     <>
@@ -43,7 +59,7 @@ function Login(props) {
       <Card
         sx={{
           mx: "auto",
-          marginTop: 7,
+          my: "auto",
           paddingX: 4,
           paddingY: 2,
           display: "block",
@@ -52,14 +68,37 @@ function Login(props) {
         }}
       >
         {error && <Message severity="error">{error}</Message>}
+        {message && <Message severity="error">{message}</Message>}
         <Typography
           variant="body1"
           component="h3"
           sx={{ fontSize: 28, marginBottom: 2 }}
         >
-          Sign-In
+          Create Account
         </Typography>
         <form onSubmit={submitHandler}>
+          <Typography
+            variant="div"
+            component="h5"
+            sx={{
+              fontWeight: 700,
+              fontSize: 14,
+              marginTop: 2,
+            }}
+          >
+            Your Name
+          </Typography>
+          <TextField
+            fullWidth
+            id="name"
+            type="text"
+            variant="outlined"
+            onChange={handleName}
+            value={name}
+            size="small"
+            sx={{ marginTop: 1 }}
+            placeholder="First and last name"
+          />
           <Typography
             variant="div"
             component="h5"
@@ -80,6 +119,7 @@ function Login(props) {
             value={email}
             size="small"
             sx={{ marginTop: 1 }}
+            placeholder="Email"
           />
           <Typography
             variant="div"
@@ -101,6 +141,29 @@ function Login(props) {
             value={password}
             size="small"
             sx={{ marginBottom: 2, marginTop: 1 }}
+            placeholder="Enter Password"
+          />
+          <Typography
+            variant="div"
+            component="h5"
+            sx={{
+              fontWeight: 700,
+              fontSize: 14,
+              marginTop: 2,
+            }}
+          >
+            Confirm Password
+          </Typography>
+          <TextField
+            fullWidth
+            id="confirm-password"
+            type="password"
+            variant="outlined"
+            onChange={handleConfirmPassword}
+            value={confirmPassword}
+            size="small"
+            sx={{ marginBottom: 2, marginTop: 1 }}
+            placeholder="Re-enter Password"
           />
           <Button
             fullWidth
@@ -123,7 +186,7 @@ function Login(props) {
                 textTransform: "none",
               }}
             >
-              Sign-In
+              Register
             </Typography>
           </Button>
         </form>
@@ -138,13 +201,13 @@ function Login(props) {
               textTransform: "none",
             }}
           >
-            New to Ecommerce?
+            Already have an account?
           </Typography>
         </Divider>
 
         <Link
           sx={{ textDecoration: "none" }}
-          href={redirect ? `register?redirect=${redirect}` : "/register"}
+          href={redirect ? `login?redirect=${redirect}` : "/login"}
         >
           <Button
             fullWidth
@@ -167,7 +230,7 @@ function Login(props) {
                 textTransform: "none",
               }}
             >
-              Create your Ecommerce account
+              Sign in
             </Typography>
           </Button>
         </Link>
@@ -176,4 +239,4 @@ function Login(props) {
   );
 }
 
-export default Login;
+export default Register;
