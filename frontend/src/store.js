@@ -9,6 +9,7 @@ import { cartReducer } from "./reducers/cartReducer.js";
 import {
   userLoginReducer,
   userRegisterReducer,
+  userDetailsReducer,
 } from "./reducers/userReducer.js";
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
@@ -25,6 +26,7 @@ const reducer = combineReducers({
   cart: cartReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
+  userDetails: userDetailsReducer,
 });
 //Global initial state object
 const initialState = {

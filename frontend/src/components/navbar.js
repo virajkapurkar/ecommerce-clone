@@ -17,6 +17,7 @@ import Logout from "@mui/icons-material/Logout";
 import Link from "@mui/material/Link";
 import { logout } from "../actions/userActions.js";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import logo from "../logo.png";
 
 const theme = createTheme();
 theme.typography.body2 = {
@@ -50,8 +51,9 @@ function Navbar(props) {
             <Toolbar>
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                 <NavLink to="/" style={linkStyle}>
-                  {" "}
-                  E-commerce App
+                  <Box sx={{ padding: 0, display: "inline" }}>
+                    <img alt="logo" src={logo} height="50"></img>
+                  </Box>
                 </NavLink>
               </Typography>
               <NavLink to="/cart/" style={linkStyle}>

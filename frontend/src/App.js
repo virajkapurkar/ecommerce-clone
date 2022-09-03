@@ -9,6 +9,7 @@ import ProductDetail from "./screens/productDetail";
 import Cart from "./screens/cart.js";
 import Login from "./screens/login.js";
 import Register from "./screens/register.js";
+import Profile from "./screens/profile.js";
 function App() {
   return (
     <>
@@ -23,6 +24,7 @@ function App() {
               <Route exact path="/" element={<Home />} />
               <Route exact path="/login" element={<Login />} />
               <Route exact path="/register" element={<Register />} />
+              <Route exact path="/profile" element={<Profile />}></Route>
               <Route
                 exact
                 path="/product/:id"
