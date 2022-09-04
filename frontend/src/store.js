@@ -20,6 +20,10 @@ const userInfoFromStorage = localStorage.getItem("userInfo")
 const cartItemsFromStorage = localStorage.getItem("cartItems")
   ? JSON.parse(localStorage.getItem("cartItems"))
   : [];
+
+const shippingAddressFromStorage = localStorage.getItem("shippingAddress")
+  ? JSON.parse(localStorage.getItem("shippingAddress"))
+  : {};
 //reducers
 const reducer = combineReducers({
   productList: productsReducer,
@@ -32,7 +36,10 @@ const reducer = combineReducers({
 });
 //Global initial state object
 const initialState = {
-  cart: { cartItems: cartItemsFromStorage },
+  cart: {
+    cartItems: cartItemsFromStorage,
+    shippingAddress: shippingAddressFromStorage,
+  },
   userLogin: { userInfo: userInfoFromStorage },
 };
 //thunk middleware for extended capabilities to handle state changes

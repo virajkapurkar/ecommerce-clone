@@ -42,7 +42,7 @@ function Cart(props) {
   };
 
   const checkOut = () => {
-    navigate("/login?redirect=shipping");
+    navigate("/login?redirect=/shipping");
   };
   return (
     <>

@@ -16,7 +16,7 @@ function Login(props) {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-  const redirect = location.search ? location.search.split("=") : "/";
+  const redirect = location.search ? location.search.split("=")[1] : "/";
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
