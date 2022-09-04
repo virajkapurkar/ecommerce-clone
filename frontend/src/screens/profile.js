@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserDetails } from "../actions/userActions.js";
+import { getUserDetails, updateUserProfile } from "../actions/userActions.js";
 import Spinner from "../components/shared/spinner.js";
 import Message from "../components/shared/alert.js";
 
@@ -36,6 +36,8 @@ function Register(props) {
   const dispatch = useDispatch();
   const { loading, error, user } = useSelector((state) => state.userDetails);
   const { userInfo } = useSelector((state) => state.userLogin);
+  const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
+  const { success } = userUpdateProfile;
 
   useEffect(() => {
     if (!userInfo) {
@@ -53,6 +55,14 @@ function Register(props) {
   const submitHandler = (e) => {
     e.preventDefault();
     //dispatch code
+    dispatch(
+      updateUserProfile({
+        id: user._id,
+        name,
+        email,
+        password,
+      })
+    );
   };
   return (
     <>
@@ -72,6 +82,9 @@ function Register(props) {
           >
             {error && <Message severity="error">{error}</Message>}
             {message && <Message severity="error">{message}</Message>}
+            {success && (
+              <Message severity="success">Profile updated successfully</Message>
+            )}
             <Typography
               variant="body1"
               component="h3"
