@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { saveShippingAddress } from "../actions/cartActions";
+import { saveShippingAddress } from "../actions/cartActions.js";
 import Card from "@mui/material/Card";
 import { Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
