@@ -5,6 +5,7 @@ import { connectDB } from "./config/db.js";
 import colors from "colors";
 import productRoutes from "./routes/productsRoute.js";
 import userRoutes from "./routes/userRoute.js";
+import orderRoutes from "./routes/orderRoute.js";
 import errorHandler from "./middleware/errorHandler.js";
 
 dotenv.config();
@@ -30,6 +31,8 @@ app.get("/", (req, res) => {
 
 app.use("/api", productRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/orders", orderRoutes);
+
 app.use(errorHandler);
 
 const PORT = 8080;
