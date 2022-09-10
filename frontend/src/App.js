@@ -12,6 +12,8 @@ import Register from "./screens/register.js";
 import Profile from "./screens/profile.js";
 import Shipping from "./screens/shipping.js";
 import Payment from "./screens/payment.js";
+import Placeorder from "./screens/placeOrder.js";
+
 function App() {
   return (
     <>
@@ -29,6 +31,8 @@ function App() {
               <Route exact path="/profile" element={<Profile />}></Route>
               <Route exact path="/shipping" element={<Shipping />}></Route>
               <Route exact path="/payment" element={<Payment />}></Route>
+              <Route exact path="/placeorder" element={<Placeorder />}></Route>
+
               <Route
                 exact
                 path="/product/:id"
