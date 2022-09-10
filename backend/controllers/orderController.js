@@ -41,3 +41,23 @@ export const getOrderById = asyncHandler(async (req, res) => {
     throw new Error("Order Not Found! :(");
   }
 });
+
+export const updateOrderToPaid = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id);
+  if (order) {
+    order.isPaid = true;
+    order.paidOn = Date.now();
+    order.paymentResult = {
+      id: req.body.id,
+      status: req.body.status,
+      updateTime: req.body.updateTime,
+      email: req.body.payer.email,
+    };
+
+    const updatedOrder = await order.save();
+    res.json(updatedOrder);
+  } else {
+    res.status(404);
+    throw new Error("Order Not Found! :(");
+  }
+});
