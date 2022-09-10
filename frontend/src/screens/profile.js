@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, Link } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
@@ -9,6 +9,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails, updateUserProfile } from "../actions/userActions.js";
 import Spinner from "../components/shared/spinner.js";
 import Message from "../components/shared/alert.js";
+import { listMyOrders } from "../actions/orderActions.js";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
 function Register(props) {
   const [name, setName] = useState("");
@@ -38,6 +46,8 @@ function Register(props) {
   const { userInfo } = useSelector((state) => state.userLogin);
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { success } = userUpdateProfile;
+  const orderList = useSelector((state) => state.orderMyList);
+  const { loading: loadingOrders, orders, error: errorOrders } = orderList;
 
   useEffect(() => {
     if (!userInfo) {
@@ -45,6 +55,7 @@ function Register(props) {
     } else {
       if (!user.name) {
         dispatch(getUserDetails("profile"));
+        dispatch(listMyOrders());
       } else {
         setName(user.name);
         setEmail(user.email);
@@ -68,7 +79,7 @@ function Register(props) {
     <>
       {loading && <Spinner />}
       <Grid container spacing={1} marginTop={2} justifyContent="space-between">
-        <Grid item md={5} xs={12}>
+        <Grid item md={4} xs={12}>
           <Card
             sx={{
               mx: "auto",
@@ -208,7 +219,7 @@ function Register(props) {
             </form>
           </Card>
         </Grid>
-        <Grid item md={7} xs={12}>
+        <Grid item md={8} xs={12}>
           <Card
             sx={{
               mx: "auto",
@@ -219,14 +230,66 @@ function Register(props) {
               backgroundColor: "white",
             }}
           >
-            <Typography
-              variant="body1"
-              component="h3"
-              sx={{ fontSize: 28, marginBottom: 2 }}
-            >
-              My Orders
-            </Typography>
-            <Divider />
+            {loadingOrders ? (
+              <Spinner />
+            ) : errorOrders ? (
+              <Message severity="error">errorOrders</Message>
+            ) : (
+              <>
+                <Typography
+                  variant="body1"
+                  component="h3"
+                  sx={{ fontSize: 28, marginBottom: 2 }}
+                >
+                  My Orders
+                </Typography>
+
+                <TableContainer>
+                  <Table aria-label="orders table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>ORDER ID</TableCell>
+                        <TableCell align="right">PLACED ON</TableCell>
+                        <TableCell align="right">ORDER TOTAL</TableCell>
+                        <TableCell align="right">PAID</TableCell>
+                        <TableCell align="right">DELIVERED</TableCell>
+                        <TableCell align="right"></TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {orders.map((order) => (
+                        <TableRow
+                          key={order._id}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                        >
+                          <TableCell component="th" scope="row">
+                            <Link
+                              sx={{ textDecoration: "none", color: "#39648e" }}
+                              href={`/order/${order._id}`}
+                            >
+                              {order._id}
+                            </Link>
+                          </TableCell>
+                          <TableCell align="right">{order.createdAt}</TableCell>
+                          <TableCell align="right">
+                            {order.totalPrice}
+                          </TableCell>
+                          <TableCell align="right">
+                            {" "}
+                            {order.isPaid ? "✅" : "❌"}
+                          </TableCell>
+                          <TableCell align="right">
+                            {order.isDelivered ? "✅" : "❌"}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </>
+            )}
           </Card>
         </Grid>
       </Grid>

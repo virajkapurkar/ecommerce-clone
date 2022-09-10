@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { getOrderDetails } from "../actions/orderActions.js";
+import React, { useState, useEffect } from "react";
+import { getOrderDetails, payOrder } from "../actions/orderActions.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Spinner from "../components/shared/spinner.js";
@@ -10,6 +10,9 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Divider from "@mui/material/Divider";
 import InputLabel from "@mui/material/InputLabel";
+import axios from "axios";
+import { PayPalButton } from "react-paypal-button-v2";
+import { ORDER_PAY_RESET } from "../constants/orderConstants.js";
 
 function Order(props) {
   const params = useParams();
@@ -17,10 +20,47 @@ function Order(props) {
   const dispatch = useDispatch();
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
+  const [sdkReady, setSdkReady] = useState(false);
+  const orderPay = useSelector((state) => state.orderPay);
+  const { loading: loadingPay, success: successPay } = orderPay;
+
+  console.log(order);
+  // const itemsPrice = Number(
+  //   order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+  // ).toFixed(2);
+  const successPaymentHandler = (paymentResult) => {
+    console.log(paymentResult);
+    dispatch(payOrder(orderId, paymentResult));
+  };
 
   useEffect(() => {
-    dispatch(getOrderDetails(orderId));
-  }, [dispatch, getOrderDetails, orderId]);
+    const addPaypalScript = async () => {
+      const { data: clientId } = await axios.get(
+        "http://localhost:8080/api/config/paypal"
+      );
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
+      script.async = true;
+      script.onload = () => {
+        setSdkReady(true);
+      };
+      document.body.appendChild(script);
+    };
+
+    if (!order || successPay) {
+      dispatch(getOrderDetails(orderId));
+      dispatch({
+        type: ORDER_PAY_RESET,
+      });
+    } else if (!order.isPaid) {
+      if (!window.paypal) {
+        addPaypalScript();
+      } else {
+        setSdkReady(true);
+      }
+    }
+  }, [dispatch, orderId, order, successPay]);
 
   const imageStyle = {
     maxHeight: "130px",
@@ -426,7 +466,13 @@ function Order(props) {
                     my: 0.5,
                   }}
                 >
-                  ₹{order.itemsPrice}
+                  ₹
+                  {Number(
+                    order.orderItems.reduce(
+                      (acc, item) => acc + item.price * item.qty,
+                      0
+                    )
+                  ).toFixed(2)}
                 </Typography>
               </Grid>
 
@@ -460,7 +506,7 @@ function Order(props) {
                     my: 0.5,
                   }}
                 >
-                  ₹{order.shippingPrice}
+                  ₹{Number(order.shippingPrice).toFixed(2)}
                 </Typography>
               </Grid>
 
@@ -494,7 +540,7 @@ function Order(props) {
                     my: 0.5,
                   }}
                 >
-                  ₹{order.totalPrice}
+                  ₹{Number(order.totalPrice).toFixed(2)}
                 </Typography>
               </Grid>
 
@@ -532,9 +578,31 @@ function Order(props) {
                     fontWeight: 500,
                   }}
                 >
-                  ₹{order.totalPrice}
+                  ₹{Number(order.totalPrice).toFixed(2)}
                 </Typography>
               </Grid>
+            </Grid>
+
+            <Grid
+              sx={{
+                marginBottom: 3,
+                padding: 2,
+              }}
+            >
+              {!order.isPaid && (
+                <>
+                  {loadingPay && <Spinner />}
+
+                  {!sdkReady ? (
+                    <Spinner />
+                  ) : (
+                    <PayPalButton
+                      amount={order.totalPrice}
+                      onSuccess={successPaymentHandler}
+                    />
+                  )}
+                </>
+              )}
             </Grid>
           </Grid>
         </Grid>
