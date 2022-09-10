@@ -1,58 +1,36 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { createOrder } from "../actions/orderActions.js";
+import { getOrderDetails } from "../actions/orderActions.js";
 import { useDispatch, useSelector } from "react-redux";
-import BreadCrumbs from "../components/shared/breadCrumbs.js";
+import { useParams } from "react-router-dom";
+import Spinner from "../components/shared/spinner.js";
+import Message from "../components/shared/alert.js";
 import { Typography, Card, Grid, Box, Link } from "@mui/material";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Divider from "@mui/material/Divider";
 import InputLabel from "@mui/material/InputLabel";
-import Message from "../components/shared/alert.js";
-import { create } from "@mui/material/styles/createTransitions.js";
 
-function Placeorder(props) {
-  const cart = useSelector((state) => state.cart);
+function Order(props) {
+  const params = useParams();
+  const orderId = params.id;
   const dispatch = useDispatch();
-  const { order, success, error } = useSelector((state) => state.orderCreate);
-  const navigate = useNavigate();
+  const orderDetails = useSelector((state) => state.orderDetails);
+  const { order, loading, error } = orderDetails;
+
+  useEffect(() => {
+    dispatch(getOrderDetails(orderId));
+  }, [dispatch, getOrderDetails, orderId]);
+
   const imageStyle = {
     maxHeight: "130px",
   };
-  //   const addDecimal = (num) => {
-  //     return Math.random(num * 100).toFixed(2);
-  //   };
-  cart.itemsPrice = Number(
-    cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
-  ).toFixed(2);
-  cart.shippingPrice = Number(cart.itemsPrice > 500 ? 0 : 100).toFixed(2);
-  cart.totalPrice = Number(
-    Number(cart.itemsPrice) + Number(cart.shippingPrice)
-  ).toFixed(2);
-
-  const placeOrderHandler = () => {
-    dispatch(
-      createOrder({
-        orderItems: cart.cartItems,
-        shippingAddress: cart.shippingAddress,
-        paymentMethod: cart.paymentMethod,
-        itemsPrice: cart.itemsPrice,
-        shippingPrice: cart.shippingPrice,
-        totalPrice: cart.totalPrice,
-      })
-    );
-  };
-
-  useEffect(() => {
-    if (success) {
-      navigate(`/order/${order._id}`);
-    }
-  }, [navigate, success]);
-  return (
+  return loading ? (
+    <Spinner />
+  ) : error ? (
+    <Message severity="error">{error}</Message>
+  ) : (
     <>
-      <BreadCrumbs step={4} />
-      {error && <Message severity="error">{error}</Message>}
       <Card
         sx={{
           mx: "auto",
@@ -68,20 +46,9 @@ function Placeorder(props) {
           component="h3"
           sx={{ fontSize: 28, marginBottom: 0 }}
         >
-          Review Your Order
+          Order: {order._id}
         </Typography>
-        <Typography
-          variant="div"
-          component="h5"
-          sx={{
-            fontWeight: 700,
-            fontSize: 12,
-            marginTop: 0,
-          }}
-        >
-          By placing your order, you agree to ecom's privacy notice and
-          conditions of use.
-        </Typography>
+
         <Grid
           container
           spacing={1}
@@ -126,7 +93,7 @@ function Placeorder(props) {
                     display: "block",
                   }}
                 >
-                  {cart.shippingAddress.address}
+                  {order.user.name} {`(${order.user.email})`}
                 </Typography>
 
                 <Typography
@@ -139,7 +106,7 @@ function Placeorder(props) {
                     display: "block",
                   }}
                 >
-                  {cart.shippingAddress.city}
+                  {order.shippingAddress.address}
                 </Typography>
 
                 <Typography
@@ -152,7 +119,20 @@ function Placeorder(props) {
                     display: "block",
                   }}
                 >
-                  {cart.shippingAddress.pincode}
+                  {order.shippingAddress.city}
+                </Typography>
+
+                <Typography
+                  color="black"
+                  variant="h4"
+                  component="h5"
+                  sx={{
+                    fontSize: 14,
+                    textTransform: "none",
+                    display: "block",
+                  }}
+                >
+                  {order.shippingAddress.pincode}
                 </Typography>
 
                 <Typography
@@ -166,8 +146,53 @@ function Placeorder(props) {
                     marginBottom: 1,
                   }}
                 >
-                  {cart.shippingAddress.country}
+                  {order.shippingAddress.country}
                 </Typography>
+
+                <Typography
+                  color="black"
+                  variant="h4"
+                  component="h5"
+                  sx={{
+                    fontSize: 15,
+                    textTransform: "none",
+                    fontWeight: 500,
+                    display: "block",
+                    marginBottom: 1,
+                  }}
+                >
+                  Delivery Status:
+                </Typography>
+
+                {order.isDelivered ? (
+                  <Typography
+                    color="black"
+                    variant="h4"
+                    component="h5"
+                    sx={{
+                      fontSize: 14,
+                      textTransform: "none",
+                      display: "block",
+                      marginBottom: 1,
+                    }}
+                  >
+                    Delivered ✔️
+                  </Typography>
+                ) : (
+                  <Typography
+                    color="black"
+                    variant="h4"
+                    component="h5"
+                    sx={{
+                      fontSize: 14,
+                      textTransform: "none",
+                      display: "block",
+                      marginBottom: 1,
+                    }}
+                  >
+                    In Transit...⏳
+                  </Typography>
+                )}
               </Grid>
 
               <Grid item md={6} xs={12}>
@@ -194,13 +219,59 @@ function Placeorder(props) {
                     fontSize: 14,
                     textTransform: "none",
                     display: "block",
+                    marginBottom: 2,
                   }}
                 >
-                  {cart.paymentMethod}
+                  {order.paymentMethod}
                 </Typography>
+
+                <Typography
+                  color="black"
+                  variant="h4"
+                  component="h5"
+                  sx={{
+                    fontSize: 15,
+                    textTransform: "none",
+                    fontWeight: 500,
+                    display: "block",
+                    marginBottom: 1,
+                  }}
+                >
+                  Payment Status:
+                </Typography>
+
+                {order.isPaid ? (
+                  <Typography
+                    color="#2ace15"
+                    variant="h4"
+                    component="h5"
+                    sx={{
+                      fontSize: 14,
+                      textTransform: "none",
+                      display: "block",
+                      marginBottom: 2,
+                    }}
+                  >
+                    Paid
+                  </Typography>
+                ) : (
+                  <Typography
+                    color="#b12704"
+                    variant="h4"
+                    component="h5"
+                    sx={{
+                      fontSize: 14,
+                      textTransform: "none",
+                      display: "block",
+                      marginBottom: 2,
+                    }}
+                  >
+                    Not Paid
+                  </Typography>
+                )}
               </Grid>
             </Grid>
-            {cart.cartItems.length === 0 ? (
+            {order.orderItems.length === 0 ? (
               <Grid
                 container
                 spacing={1}
@@ -208,7 +279,7 @@ function Placeorder(props) {
                 sx={{ border: "1px solid #ddd", borderRadius: "4px" }}
               >
                 <Message severity="info" title="Your Ecommerce Cart is empty.">
-                  Your cart doesn't have any items. Go back to{" "}
+                  Invalid Order. Go back to{" "}
                   <Link
                     to="/"
                     style={{
@@ -232,7 +303,7 @@ function Placeorder(props) {
                     width: "100%",
                   }}
                 >
-                  {cart.cartItems.map((item) => (
+                  {order.orderItems.map((item) => (
                     <div key={item.name}>
                       <ListItem alignItems="flex-start">
                         <Grid container spacing={1} sx={{ marginY: 2 }}>
@@ -310,35 +381,6 @@ function Placeorder(props) {
                 padding: 2,
               }}
             >
-              <Button
-                fullWidth
-                sx={{
-                  display: "block",
-                  marginBottom: 3,
-                  borderRadius: 1,
-                  backgroundColor: "#f0c14b",
-                  marginX: "auto",
-                  "&:hover": { backgroundColor: "#e8b22a" },
-                  padding: 1,
-                }}
-                variant="contained"
-                size="small"
-                disabled={cart.cartItems.length === 0}
-                onClick={placeOrderHandler}
-              >
-                <Typography
-                  variant="h4"
-                  color="black"
-                  sx={{
-                    fontSize: 15,
-                    textTransform: "none",
-                    fontWeight: 370,
-                  }}
-                >
-                  Place your order
-                </Typography>
-              </Button>
-
               <Typography
                 color="black"
                 variant="h4"
@@ -384,7 +426,7 @@ function Placeorder(props) {
                     my: 0.5,
                   }}
                 >
-                  ₹{cart.itemsPrice}
+                  ₹{order.itemsPrice}
                 </Typography>
               </Grid>
 
@@ -418,7 +460,7 @@ function Placeorder(props) {
                     my: 0.5,
                   }}
                 >
-                  ₹{cart.shippingPrice}
+                  ₹{order.shippingPrice}
                 </Typography>
               </Grid>
 
@@ -452,7 +494,7 @@ function Placeorder(props) {
                     my: 0.5,
                   }}
                 >
-                  ₹{cart.totalPrice}
+                  ₹{order.totalPrice}
                 </Typography>
               </Grid>
 
@@ -490,7 +532,7 @@ function Placeorder(props) {
                     fontWeight: 500,
                   }}
                 >
-                  ₹{cart.totalPrice}
+                  ₹{order.totalPrice}
                 </Typography>
               </Grid>
             </Grid>
@@ -501,4 +543,4 @@ function Placeorder(props) {
   );
 }
 
-export default Placeorder;
+export default Order;

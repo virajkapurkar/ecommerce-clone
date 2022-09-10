@@ -13,6 +13,7 @@ import Profile from "./screens/profile.js";
 import Shipping from "./screens/shipping.js";
 import Payment from "./screens/payment.js";
 import Placeorder from "./screens/placeOrder.js";
+import Order from "./screens/order.js";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
               <Route exact path="/shipping" element={<Shipping />}></Route>
               <Route exact path="/payment" element={<Payment />}></Route>
               <Route exact path="/placeorder" element={<Placeorder />}></Route>
+              <Route exact path="/order/:id" element={<Order />}></Route>
 
               <Route
                 exact
