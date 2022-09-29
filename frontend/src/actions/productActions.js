@@ -8,8 +8,7 @@ import {
 } from "../constants/productConstants.js";
 import axios from "axios";
 
-dotenv.config();
-const backend = process.env.BACKEND_URI;
+const backend = "https://guarded-fortress-39258.herokuapp.com/";
 
 export const fetchProducts = () => async (dispatch) => {
   try {

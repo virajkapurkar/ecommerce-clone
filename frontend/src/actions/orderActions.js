@@ -14,8 +14,7 @@ import {
   ORDER_MY_LIST_FAIL,
 } from "../constants/orderConstants.js";
 
-dotenv.config();
-const backend = process.env.BACKEND_URI;
+const backend = "https://guarded-fortress-39258.herokuapp.com/";
 
 export const createOrder = (order) => async (dispatch, getState) => {
   try {
