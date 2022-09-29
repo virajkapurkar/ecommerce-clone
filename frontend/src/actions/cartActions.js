@@ -6,8 +6,11 @@ import {
   CART_SAVE_SHIPPING_ADDRESS,
 } from "../constants/cartConstants.js";
 
+dotenv.config();
+const backend = process.env.BACKEND_URI;
+
 export const addToCart = (id, qty) => async (dispatch, getState) => {
-  const { data } = await axios.get(`http://localhost:8080/api/products/${id}`);
+  const { data } = await axios.get(`${backend}api/products/${id}`);
   dispatch({
     type: CART_ADD_ITEM,
     payload: {

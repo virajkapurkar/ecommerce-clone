@@ -17,6 +17,9 @@ import {
 } from "../constants/userConstants";
 import { ORDER_MY_LIST_RESET } from "../constants/orderConstants.js";
 
+dotenv.config();
+const backend = process.env.BACKEND_URI;
+
 export const login = (email, password) => async (dispatch) => {
   try {
     dispatch({
@@ -28,7 +31,7 @@ export const login = (email, password) => async (dispatch) => {
       password: password,
     };
     const { data } = await axios.post(
-      "http://localhost:8080/api/users/login",
+      `${backend}api/users/login`,
       body,
       config
     );
@@ -72,11 +75,7 @@ export const register = (name, email, password) => async (dispatch) => {
       email: email,
       password: password,
     };
-    const { data } = await axios.post(
-      "http://localhost:8080/api/users",
-      body,
-      config
-    );
+    const { data } = await axios.post(`${backend}api/users`, body, config);
     dispatch({
       type: USER_REGISTER_SUCCESS,
       payload: data,
@@ -111,10 +110,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.get(
-      `http://localhost:8080/api/users/${id}`,
-      config
-    );
+    const { data } = await axios.get(`${backend}api/users/${id}`, config);
     dispatch({
       type: USER_DETAILS_SUCCESS,
       payload: data,
@@ -145,7 +141,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.put(
-      "http://localhost:8080/api/users/profile",
+      `${backend}api/users/profile`,
       user,
       config
     );

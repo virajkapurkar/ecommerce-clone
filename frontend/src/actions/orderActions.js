@@ -14,6 +14,9 @@ import {
   ORDER_MY_LIST_FAIL,
 } from "../constants/orderConstants.js";
 
+dotenv.config();
+const backend = process.env.BACKEND_URI;
+
 export const createOrder = (order) => async (dispatch, getState) => {
   try {
     dispatch({
@@ -28,11 +31,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.post(
-      "http://localhost:8080/api/orders",
-      order,
-      config
-    );
+    const { data } = await axios.post(`${backend}api/orders`, order, config);
     dispatch({
       type: ORDER_CREATE_SUCCESS,
       payload: data,
@@ -61,10 +60,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.get(
-      `http://localhost:8080/api/orders/${id}`,
-      config
-    );
+    const { data } = await axios.get(`${backend}api/orders/${id}`, config);
     dispatch({
       type: ORDER_DETAILS_SUCCESS,
       payload: data,
@@ -98,7 +94,7 @@ export const payOrder =
       };
 
       const { data } = await axios.put(
-        `http://localhost:8080/api/orders/${orderId}/pay`,
+        `${backend}api/orders/${orderId}/pay`,
         paymentResult,
         config
       );
@@ -133,10 +129,7 @@ export const listMyOrders = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      "http://localhost:8080/api/orders/myorders",
-      config
-    );
+    const { data } = await axios.get(`${backend}api/orders/myorders`, config);
 
     dispatch({
       type: ORDER_MY_LIST_SUCCESS,

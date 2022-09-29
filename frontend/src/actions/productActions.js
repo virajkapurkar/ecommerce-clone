@@ -8,10 +8,13 @@ import {
 } from "../constants/productConstants.js";
 import axios from "axios";
 
+dotenv.config();
+const backend = process.env.BACKEND_URI;
+
 export const fetchProducts = () => async (dispatch) => {
   try {
     dispatch({ type: PRODUCTS_REQUEST });
-    const { data } = await axios.get("http://localhost:8080/api/products");
+    const { data } = await axios.get(`${backend}api/products`);
     dispatch({
       type: PRODUCTS_SUCCESS,
       payload: data,
@@ -32,9 +35,7 @@ export const fetchProductDetails = (id) => async (dispatch) => {
     dispatch({
       type: PRODUCT_DETAILS_REQUEST,
     });
-    const { data } = await axios.get(
-      `http://localhost:8080/api/products/${id}`
-    );
+    const { data } = await axios.get(`${backend}api/products/${id}`);
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
       payload: data,
