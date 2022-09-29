@@ -16,7 +16,10 @@ import {
   USER_DETAILS_RESET,
 } from "../constants/userConstants";
 import { ORDER_MY_LIST_RESET } from "../constants/orderConstants.js";
+// import dotenv from "dotenv";
 
+// dotenv.config();
+// const backend = process.env.SERVER_URI;
 const backend = "https://guarded-fortress-39258.herokuapp.com/";
 
 export const login = (email, password) => async (dispatch) => {

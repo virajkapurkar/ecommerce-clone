@@ -7,7 +7,10 @@ import {
   PRODUCT_DETAILS_FAIL,
 } from "../constants/productConstants.js";
 import axios from "axios";
+// import dotenv from "dotenv";
 
+// dotenv.config();
+// const backend = process.env.SERVER_URI;
 const backend = "https://guarded-fortress-39258.herokuapp.com/";
 
 export const fetchProducts = () => async (dispatch) => {

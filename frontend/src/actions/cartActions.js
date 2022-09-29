@@ -5,7 +5,10 @@ import {
   CART_SAVE_PAYMENT_METHOD,
   CART_SAVE_SHIPPING_ADDRESS,
 } from "../constants/cartConstants.js";
+// import dotenv from "dotenv";
 
+// dotenv.config();
+// const backend = process.env.SERVER_URI;
 const backend = "https://guarded-fortress-39258.herokuapp.com/";
 
 export const addToCart = (id, qty) => async (dispatch, getState) => {
