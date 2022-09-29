@@ -20,7 +20,7 @@ import { ORDER_MY_LIST_RESET } from "../constants/orderConstants.js";
 
 // dotenv.config();
 // const backend = process.env.SERVER_URI;
-const backend = "https://guarded-fortress-39258.herokuapp.com/";
+const backend = "http://localhost:8080/";
 
 export const login = (email, password) => async (dispatch) => {
   try {

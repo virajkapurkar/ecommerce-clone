@@ -9,7 +9,7 @@ import {
 
 // dotenv.config();
 // const backend = process.env.SERVER_URI;
-const backend = "https://guarded-fortress-39258.herokuapp.com/";
+const backend = "http://localhost:8080/";
 
 export const addToCart = (id, qty) => async (dispatch, getState) => {
   const { data } = await axios.get(`${backend}api/products/${id}`);
