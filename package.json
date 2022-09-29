@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "description": "Ecommerce app clone created using MERN tech stack",
-  "main": "server.js",
+  "main": "backend/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon backend/server",
